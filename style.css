@@ -1,0 +1,15 @@
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  font-family: inter;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
