@@ -47,8 +47,8 @@ template.innerHTML = `
     </div>
     <div class="panner-container mb-4">
       <span>Panner :</span>
-      <input class="my-4" id="panning-control" type="range" min="-1" max="1" step="0.1" value="0">
-      <span class="my-4" id="panning-value"></span>
+      <input id="panning-control" type="range" min="-1" max="1" step="0.1" value="0">
+      <span id="panning-value"></span>
     </div>
     <div class="equalizer-container mb-4">
       <label for="equalizer-60"><span class="equalizer-label">60Hz :</span></label>
@@ -76,7 +76,7 @@ template.innerHTML = `
       <output id="gain5">0 dB</output>
     </div>
     <button id="rester-equalizer-btn" class="control-button">Reset Equalizer</button>
-    <canvas class="my-12" id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
   </div>
 `;
 
