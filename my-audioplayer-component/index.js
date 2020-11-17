@@ -156,21 +156,21 @@ export default class MyAudioPlayer extends HTMLElement {
     this.canvasContext = this.canvas.getContext("2d");
 
     // The AudioContext shouldn't be initialized before any user input has been detected
-    const audioContext = new AudioContext();
-    const playerNode = audioContext.createMediaElementSource(this.player);
+    this.audioContext = new AudioContext();
+    const playerNode = this.audioContext.createMediaElementSource(this.player);
 
-    this.pannerNode = audioContext.createStereoPanner();
+    this.pannerNode = this.audioContext.createStereoPanner();
 
-    this.analyserNode = audioContext.createAnalyser();
+    this.analyserNode = this.audioContext.createAnalyser();
     this.analyserNode.fftSize = 1024;
     this.bufferLenght = this.analyserNode.frequencyBinCount;
     this.dataArray = new Uint8Array(this.bufferLenght);
 
-    playerNode.connect(this.pannerNode).connect(this.analyserNode).connect(audioContext.destination);
+    playerNode.connect(this.pannerNode).connect(this.analyserNode).connect(this.audioContext.destination);
 
     // Equalizer initialization
     [60, 170, 350, 1000, 3500, 10000].forEach((freq, i) => {
-      var eq = audioContext.createBiquadFilter();
+      var eq = this.audioContext.createBiquadFilter();
       eq.frequency.value = freq;
       eq.type = "peaking";
       eq.gain.value = 0;
@@ -182,7 +182,7 @@ export default class MyAudioPlayer extends HTMLElement {
       this.filters[i].connect(this.filters[i + 1]);
     }
 
-    this.filters[this.filters.length - 1].connect(audioContext.destination);
+    this.filters[this.filters.length - 1].connect(this.audioContext.destination);
 
     this.visualize();
     this.declareListeners();
@@ -208,6 +208,10 @@ export default class MyAudioPlayer extends HTMLElement {
 
       this.progressNumberCurrent.innerHTML = "0:00";
       this.progressNumberMax.innerHTML = `${minutes}:${this.formatInt(seconds)}`;
+    };
+
+    this.player.onplay = () => {
+      this.audioContext.resume();
     };
 
     // Progress
